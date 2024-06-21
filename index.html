@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .data-container {
+            margin-top: 20px;
+        }
+        .data-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Data Display</h1>
+    <div class="data-container" id="data-container">
+        Loading data...
+    </div>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3100/api/data');
+                const data = await response.json();
+                displayData(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('data-container').innerText = 'Error loading data';
+            }
+        }
+
+        function displayData(data) {
+            const container = document.getElementById('data-container');
+            container.innerHTML = `
+                <div class="data-item"><strong>Total Product Count:</strong> ${data.total_product_count}</div>
+                <div class="data-item"><strong>Total Running Time:</strong> ${data.total_running_time}</div>
+                <div class="data-item"><strong>Total Power On Time:</strong> ${data.total_power_on_time}</div>
+                <div class="data-item"><strong>Fault Code:</strong> ${data.fault_code}</div>
+            `;
+        }
+
+        // Fetch data initially and then every 2 seconds
+        fetchData();
+        setInterval(fetchData, 2000);
+    </script>
+</body>
+</html>
