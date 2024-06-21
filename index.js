@@ -1,6 +1,8 @@
 var http = require("http"),
   fs = require("fs");
 
+var port = process.env.PORT || 8080
+
 fs.readFile("./index.html", function (err, html) {
   if (err) {
     throw err;
@@ -11,5 +13,6 @@ fs.readFile("./index.html", function (err, html) {
       response.write(html);
       response.end();
     })
-    .listen(process.env.PORT || 8080);
+    .listen(port);
+  console.log(`Server running at http://localhost:${port}` );
 });
